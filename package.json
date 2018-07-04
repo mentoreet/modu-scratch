@@ -28,6 +28,10 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
+  "dependencies": {
+    "scratch-vm": "github:kchadha/scratch-vm#variable-scope",
+    "scratch-blocks": "github:kchadha/scratch-blocks#local-vars"
+  },
   "devDependencies": {
     "arraybuffer-loader": "^1.0.3",
     "autoprefixer": "^8.1.0",
