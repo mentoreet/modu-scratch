@@ -9,12 +9,13 @@ const UPDATE_LOCALES = 'scratch-gui/locales/UPDATE_LOCALES';
 const SELECT_LOCALE = 'scratch-gui/locales/SELECT_LOCALE';
 
 const initialState = {
-    locale: 'en',
+    locale: 'ko',
     messagesByLocale: editorMessages,
-    messages: editorMessages.en
+    messages: editorMessages.ko
 };
 
 const reducer = function (state, action) {
+    console.log('state----->' + state);
     if (typeof state === 'undefined') state = initialState;
     switch (action.type) {
     case SELECT_LOCALE:

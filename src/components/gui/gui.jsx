@@ -113,7 +113,7 @@ const GUIComponent = props => {
                 {...componentProps}
             >
                 {previewInfoVisible ? (
-                    <PreviewModal />
+                    null
                 ) : null}
                 {loading ? (
                     <Loader />
