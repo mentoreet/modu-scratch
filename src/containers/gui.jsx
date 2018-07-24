@@ -37,7 +37,50 @@ class GUI extends React.Component {
         if (this.props.vm.initialized) return;
         this.audioEngine = new AudioEngine();
         this.props.vm.attachAudioEngine(this.audioEngine);
-        this.props.vm.loadProject(this.props.projectData)
+
+        var fileName = location.search.substring(6);        
+        var sbUrl = 'https://modustorage.blob.core.windows.net/scratch/' + fileName;
+        var request = new XMLHttpRequest();
+        request.open('GET', sbUrl, true);
+        request.responseType = 'blob';
+        var projectLoader = this;
+        request.onload = function() {
+            if(request.readyState === 4 && request.status !== 404 ) {
+                var reader = new FileReader();
+                reader.readAsDataURL(request.response);
+                
+                reader.onload =  function(e){
+                    console.log('DataURL:', e.target.result);
+                    var base64 = e.target.result;
+                    var binary_string =  window.atob(base64.split(',')[1]);
+                    var len = binary_string.length;
+                    var bytes = new Uint8Array( len );
+                    for (var i = 0; i < len; i++)        {
+                        bytes[i] = binary_string.charCodeAt(i);
+                    }
+
+                    projectLoader.props.vm.loadProject(bytes.buffer)
+                         .then(() => {
+                            projectLoader.setState({loading: false}, () => {
+                                projectLoader.props.vm.setCompatibilityMode(true);
+                                projectLoader.props.vm.start();
+                            });
+                        })
+                        .catch(e => {
+                            // Need to catch this error and update component state so that
+                            // error page gets rendered if project failed to load
+                            projectLoader.setState({loadingError: true, errorMessage: e});
+                        });
+                    projectLoader.props.vm.initialized = true;
+                };    
+            }
+        };
+
+        request.send();
+
+        if (!this.props.vm.initialized)
+        {
+            this.props.vm.loadProject(this.props.projectData)
             .then(() => {
                 this.setState({loading: false}, () => {
                     this.props.vm.setCompatibilityMode(true);
@@ -49,7 +92,8 @@ class GUI extends React.Component {
                 // error page gets rendered if project failed to load
                 this.setState({loadingError: true, errorMessage: e});
             });
-        this.props.vm.initialized = true;
+            this.props.vm.initialized = true;
+        }
     }
     componentWillReceiveProps (nextProps) {
         if (this.props.projectData !== nextProps.projectData) {
