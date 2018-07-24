@@ -15,6 +15,7 @@ import fullScreenIcon from './icon--fullscreen.svg';
 import largeStageIcon from './icon--large-stage.svg';
 import smallStageIcon from './icon--small-stage.svg';
 import unFullScreenIcon from './icon--unfullscreen.svg';
+import downLoadIcon from './icon-down.svg'
 
 import styles from './stage-header.css';
 import ProjectSaver from '../../containers/project-saver.jsx';
@@ -134,6 +135,21 @@ const StageHeaderComponent = function (props) {
                 <Box className={styles.stageMenuWrapper}>
                     <Controls vm={vm} />
                     <div className={styles.stageSizeRow}>
+                        <ProjectSaver>{(saveProject, saveProps) => (
+                            <Button
+                                className={styles.stageButton}
+                                onClick={saveProject}
+                                {...saveProps}
+                            >
+                            <img
+                                alt="Save to your computer"
+                                className={styles.stageButtonIcon}
+                                draggable={false}
+                                src={downLoadIcon}
+                                title="Save to your computer"
+                            />
+                            </Button>
+                        )}</ProjectSaver>       
                         {stageControls}
                         <div>
                             <Button
@@ -150,7 +166,6 @@ const StageHeaderComponent = function (props) {
                             </Button>
                         </div>
                     </div>
-                     
                 </Box>
             </Box>            
         );
