@@ -141,11 +141,7 @@ const GUIComponent = props => {
                         vm={vm}
                         onRequestClose={onRequestCloseBackdropLibrary}
                     />
-                ) : null}
-                <MenuBar
-                    enableCommunity={enableCommunity}
-                    onSeeCommunity={onSeeCommunity}
-                />
+                ) : null}              
                 <Box className={styles.bodyWrapper}>
                     <Box className={styles.flexWrapper}>
                         <Box className={styles.editorWrapper}>

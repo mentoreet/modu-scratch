@@ -17,6 +17,7 @@ import smallStageIcon from './icon--small-stage.svg';
 import unFullScreenIcon from './icon--unfullscreen.svg';
 
 import styles from './stage-header.css';
+import ProjectSaver from '../../containers/project-saver.jsx';
 
 const messages = defineMessages({
     largeStageSizeMessage: {
@@ -125,7 +126,7 @@ const StageHeaderComponent = function (props) {
                                 src={largeStageIcon}
                             />
                         </Button>
-                    </div>
+                    </div>                    
                 </div>
             );
         header = (
@@ -149,8 +150,9 @@ const StageHeaderComponent = function (props) {
                             </Button>
                         </div>
                     </div>
+                     
                 </Box>
-            </Box>
+            </Box>            
         );
     }
 
