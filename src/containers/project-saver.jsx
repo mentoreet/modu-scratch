@@ -32,8 +32,21 @@ class ProjectSaver extends React.Component {
             // TODO user-friendly project name
             // File name: project-DATE-TIME
             const date = new Date();
-            const timestamp = `${date.toLocaleDateString()}-${date.toLocaleTimeString()}`;
-            const filename = `untitled-project-${timestamp}.sb3`;
+            var mm = date.getMonth() + 1;
+            var dd = date.getDate();
+            var yyyymmdd = [date.getFullYear(),
+                              (mm>9 ? '' : '0') + mm,
+                              (dd>9 ? '' : '0') + dd
+                             ].join('');
+            var hh = date.getHours();
+            var mi = date.getMinutes();
+            var ss = date.getSeconds();
+            var hhmmss = [(hh > 9 ? '' : '0') + hh,
+                             (mi > 9 ? '' : '0') + mi,
+                             (ss > 9 ? '' : '0') + ss, ].join('');
+
+            const timestamp = `${yyyymmdd}${hhmmss}`;
+            const filename = `moducoding_project_${timestamp}.sb3`;
 
             // Use special ms version if available to get it working on Edge.
             if (navigator.msSaveOrOpenBlob) {
