@@ -141,12 +141,12 @@ const GUIComponent = props => {
                         vm={vm}
                         onRequestClose={onRequestCloseBackdropLibrary}
                     />
-                ) : null}              
+                ) : null}                
                 <Box className={styles.bodyWrapper}>
                     <Box className={styles.flexWrapper}>
                         <Box className={styles.editorWrapper}>
                             <Tabs
-                                forceRenderTabPanel
+                                forceRenderTabPanels
                                 className={tabClassNames.tabs}
                                 selectedIndex={activeTabIndex}
                                 selectedTabClassName={tabClassNames.tabSelected}
@@ -234,7 +234,7 @@ const GUIComponent = props => {
                                 <TabPanel className={tabClassNames.tabPanel}>
                                     {soundsTabVisible ? <SoundTab vm={vm} /> : null}
                                 </TabPanel>
-                            </Tabs>
+                            </Tabs>                           
                         </Box>
 
                         <Box className={classNames(styles.stageAndTargetWrapper, styles[stageSize])}>
