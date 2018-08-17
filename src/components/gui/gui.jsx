@@ -116,7 +116,7 @@ const GUIComponent = props => {
                 {...componentProps}
             >
                 {previewInfoVisible ? (
-                    <PreviewModal hideIntro={hideIntro} />
+                    null
                 ) : null}
                 {loading ? (
                     <Loader />
