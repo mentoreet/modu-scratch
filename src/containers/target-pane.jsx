@@ -10,6 +10,7 @@ import {
 
 import {activateTab, COSTUMES_TAB_INDEX} from '../reducers/editor-tab';
 import {setReceivedBlocks} from '../reducers/hovered-target';
+import {setRestore} from '../reducers/restore-deletion';
 import DragConstants from '../lib/drag-constants';
 import TargetPaneComponent from '../components/target-pane/target-pane.jsx';
 import spriteLibraryContent from '../lib/libraries/sprites.json';
@@ -20,6 +21,7 @@ class TargetPane extends React.Component {
         super(props);
         bindAll(this, [
             'handleBlockDragEnd',
+            'handleChangeSpriteRotationStyle',
             'handleChangeSpriteDirection',
             'handleChangeSpriteName',
             'handleChangeSpriteSize',
@@ -48,6 +50,9 @@ class TargetPane extends React.Component {
     handleChangeSpriteDirection (direction) {
         this.props.vm.postSpriteInfo({direction});
     }
+    handleChangeSpriteRotationStyle (rotationStyle) {
+        this.props.vm.postSpriteInfo({rotationStyle});
+    }
     handleChangeSpriteName (name) {
         this.props.vm.renameSprite(this.props.editingTarget, name);
     }
@@ -64,7 +69,12 @@ class TargetPane extends React.Component {
         this.props.vm.postSpriteInfo({y});
     }
     handleDeleteSprite (id) {
-        this.props.vm.deleteSprite(id);
+        const restoreFun = this.props.vm.deleteSprite(id);
+        this.props.dispatchUpdateRestore({
+            restoreFun: restoreFun,
+            deletedItem: 'Sprite'
+        });
+
     }
     handleDuplicateSprite (id) {
         this.props.vm.duplicateSprite(id);
@@ -126,7 +136,7 @@ class TargetPane extends React.Component {
     }
     handleBlockDragEnd (blocks) {
         if (this.props.hoveredTarget.sprite && this.props.hoveredTarget.sprite !== this.props.editingTarget) {
-            this.props.vm.shareBlocksToTarget(blocks, this.props.hoveredTarget.sprite);
+            this.props.vm.shareBlocksToTarget(blocks, this.props.hoveredTarget.sprite, this.props.editingTarget);
             this.props.onReceivedBlocks(true);
         }
     }
@@ -135,6 +145,12 @@ class TargetPane extends React.Component {
         if (dragInfo.dragType === DragConstants.SPRITE) {
             // Add one to both new and target index because we are not counting/moving the stage
             this.props.vm.reorderTarget(dragInfo.index + 1, dragInfo.newIndex + 1);
+        } else if (dragInfo.dragType === DragConstants.BACKPACK_SPRITE) {
+            // TODO storage does not have a way of loading zips right now, and may never need it.
+            // So for now just grab the zip manually.
+            fetch(dragInfo.payload.bodyUrl)
+                .then(response => response.arrayBuffer())
+                .then(sprite3Zip => this.props.vm.addSprite(sprite3Zip));
         } else if (targetId) {
             // Something is being dragged over one of the sprite tiles or the backdrop.
             // Dropping assets like sounds and costumes duplicate the asset on the
@@ -146,6 +162,18 @@ class TargetPane extends React.Component {
                 this.props.vm.shareCostumeToTarget(dragInfo.index, targetId);
             } else if (targetId && dragInfo.dragType === DragConstants.SOUND) {
                 this.props.vm.shareSoundToTarget(dragInfo.index, targetId);
+            } else if (dragInfo.dragType === DragConstants.BACKPACK_COSTUME) {
+                // In scratch 2, this only creates a new sprite from the costume.
+                // We may be able to handle both kinds of drops, depending on where
+                // the drop happens. For now, just add the costume.
+                this.props.vm.addCostume(dragInfo.payload.body, {
+                    name: dragInfo.payload.name
+                }, targetId);
+            } else if (dragInfo.dragType === DragConstants.BACKPACK_SOUND) {
+                this.props.vm.addSound({
+                    md5: dragInfo.payload.body,
+                    name: dragInfo.payload.name
+                }, targetId);
             }
         }
     }
@@ -153,6 +181,7 @@ class TargetPane extends React.Component {
         const {
             onActivateTab, // eslint-disable-line no-unused-vars
             onReceivedBlocks, // eslint-disable-line no-unused-vars
+            dispatchUpdateRestore, // eslint-disable-line no-unused-vars
             ...componentProps
         } = this.props;
         return (
@@ -161,6 +190,7 @@ class TargetPane extends React.Component {
                 fileInputRef={this.setFileInput}
                 onChangeSpriteDirection={this.handleChangeSpriteDirection}
                 onChangeSpriteName={this.handleChangeSpriteName}
+                onChangeSpriteRotationStyle={this.handleChangeSpriteRotationStyle}
                 onChangeSpriteSize={this.handleChangeSpriteSize}
                 onChangeSpriteVisibility={this.handleChangeSpriteVisibility}
                 onChangeSpriteX={this.handleChangeSpriteX}
@@ -217,6 +247,9 @@ const mapDispatchToProps = dispatch => ({
     },
     onReceivedBlocks: receivedBlocks => {
         dispatch(setReceivedBlocks(receivedBlocks));
+    },
+    dispatchUpdateRestore: restoreState => {
+        dispatch(setRestore(restoreState));
     }
 });
 

@@ -25,9 +25,9 @@ describe('Working with the how-to library', () => {
 
     test('Choosing a how-to', async () => {
         await loadUri(uri);
-        await clickXpath('//button[@title="tryit"]');
+        await clickXpath('//button[@title="Try It"]');
         await clickText('Costumes');
-        await clickXpath('//*[@aria-label="How-to Library"]');
+        await clickXpath('//*[@aria-label="Tutorials"]');
         await clickText('Getting Started'); // Modal should close
         // Make sure YouTube video on first card appears
         await findByXpath('//div[contains(@class, "step-video")]');

@@ -93,7 +93,7 @@ $main-button-size: 2.75rem;
 }
 
 .main-button:hover {
-    background: $pen-primary;
+    background: $extensions-primary;
     box-shadow: 0 0 0 6px $motion-transparent;
 }
 
@@ -133,6 +133,10 @@ $main-button-size: 2.75rem;
     background: $motion-primary;
     border: $motion-primary;
     color: $ui-white;
+}
+
+[dir="rtl"] .retake-button img {
+    transform: scaleX(-1);
 }
 
 @keyframes flash {
