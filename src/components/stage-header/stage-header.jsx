@@ -15,10 +15,12 @@ import fullScreenIcon from './icon--fullscreen.svg';
 import largeStageIcon from './icon--large-stage.svg';
 import smallStageIcon from './icon--small-stage.svg';
 import unFullScreenIcon from './icon--unfullscreen.svg';
-import downLoadIcon from './icon-down.svg'
+import downLoadIcon from './icon-down_new.svg'
+import upLoadIcon from './icon-up_new.svg'
 
 import styles from './stage-header.css';
 import ProjectSaver from '../../containers/project-saver.jsx';
+import ProjectLoader from '../../containers/project-loader.jsx';
 
 const messages = defineMessages({
     largeStageSizeMessage: {
@@ -135,6 +137,22 @@ const StageHeaderComponent = function (props) {
                 <Box className={styles.stageMenuWrapper}>
                     <Controls vm={vm} />
                     <div className={styles.stageSizeRow}>
+                        <ProjectLoader>{(renderFileInput, loadProject, loadProps) => (                            
+                            <Button
+                                className={styles.stageButton}
+                                onClick={loadProject}
+                                {...loadProps}
+                            >
+                            <img
+                                alt="Load from your computer"
+                                className={styles.stageButtonIcon}
+                                draggable={false}
+                                src={upLoadIcon}
+                                title="Load from your computer"
+                            />
+                            {renderFileInput()}
+                            </Button>
+                        )}</ProjectLoader>                        
                         <ProjectSaver>{(saveProject, saveProps) => (
                             <Button
                                 className={styles.stageButton}
