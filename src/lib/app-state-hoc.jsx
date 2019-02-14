@@ -31,7 +31,11 @@ const AppStateHOC = function (WrappedComponent) {
             if (props.isFullScreen) {
                 initializedGui = initFullScreen(initializedGui);
             }
-            if (props.isPlayerOnly) {
+
+            let searchParams = new URLSearchParams(location.search);
+            let isPlayerOnly = (searchParams.get('playeronly') == 1);
+
+            if (props.isPlayerOnly || isPlayerOnly) {
                 initializedGui = initPlayer(initializedGui);
             }
 

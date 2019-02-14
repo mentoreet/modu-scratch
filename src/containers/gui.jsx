@@ -38,8 +38,10 @@ class GUI extends React.Component {
         this.audioEngine = new AudioEngine();
         this.props.vm.attachAudioEngine(this.audioEngine);
 
-        var fileName = location.search.substring(6);        
+        let searchParams = new URLSearchParams(location.search);
+        var fileName = searchParams.get('file');//location.search.substring(6);        
         var sbUrl = 'https://modustorage.blob.core.windows.net/scratch/' + fileName;
+        //var sbUrl = 'http://0.0.0.0:8601/static/' + fileName;
         var request = new XMLHttpRequest();
         request.open('GET', sbUrl, true);
         request.responseType = 'blob';

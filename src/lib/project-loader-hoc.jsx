@@ -65,6 +65,7 @@ const ProjectLoaderHOC = function (WrappedComponent) {
                 projectId, // eslint-disable-line no-unused-vars
                 ...componentProps
             } = this.props;
+
             if (!this.state.projectData) return null;
             return (
                 <WrappedComponent

@@ -17,7 +17,6 @@ const initialState = {
 };
 
 const reducer = function (state, action) {
-    console.log('state----->' + state);
     if (typeof state === 'undefined') state = initialState;
     switch (action.type) {
     case SELECT_LOCALE:

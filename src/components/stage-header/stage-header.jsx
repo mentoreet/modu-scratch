@@ -97,6 +97,41 @@ const StageHeaderComponent = function (props) {
             ) : (
                 <div className={styles.stageSizeToggleGroup}>
                     <div>
+                        <ProjectLoader>{(renderFileInput, loadProject, loadProps) => (                            
+                            <Button
+                                className={styles.stageButton}
+                                onClick={loadProject}
+                                {...loadProps}
+                            >
+                            <img
+                                alt="Load from your computer"
+                                className={styles.stageButtonIcon}
+                                draggable={false}
+                                src={upLoadIcon}
+                                title="Load from your computer"
+                            />
+                            {renderFileInput()}
+                            </Button>
+                        )}</ProjectLoader>
+                    </div>
+                    <div>                        
+                        <ProjectSaver>{(saveProject, saveProps) => (
+                            <Button
+                                className={styles.stageButton}
+                                onClick={saveProject}
+                                {...saveProps}
+                            >
+                            <img
+                                alt="Save to your computer"
+                                className={styles.stageButtonIcon}
+                                draggable={false}
+                                src={downLoadIcon}
+                                title="Save to your computer"
+                            />
+                            </Button>
+                        )}</ProjectSaver>
+                    </div>
+                    <div>
                         <Button
                             className={classNames(
                                 styles.stageButton,
@@ -137,37 +172,6 @@ const StageHeaderComponent = function (props) {
                 <Box className={styles.stageMenuWrapper}>
                     <Controls vm={vm} />
                     <div className={styles.stageSizeRow}>
-                        <ProjectLoader>{(renderFileInput, loadProject, loadProps) => (                            
-                            <Button
-                                className={styles.stageButton}
-                                onClick={loadProject}
-                                {...loadProps}
-                            >
-                            <img
-                                alt="Load from your computer"
-                                className={styles.stageButtonIcon}
-                                draggable={false}
-                                src={upLoadIcon}
-                                title="Load from your computer"
-                            />
-                            {renderFileInput()}
-                            </Button>
-                        )}</ProjectLoader>                        
-                        <ProjectSaver>{(saveProject, saveProps) => (
-                            <Button
-                                className={styles.stageButton}
-                                onClick={saveProject}
-                                {...saveProps}
-                            >
-                            <img
-                                alt="Save to your computer"
-                                className={styles.stageButtonIcon}
-                                draggable={false}
-                                src={downLoadIcon}
-                                title="Save to your computer"
-                            />
-                            </Button>
-                        )}</ProjectSaver>       
                         {stageControls}
                         <div>
                             <Button
