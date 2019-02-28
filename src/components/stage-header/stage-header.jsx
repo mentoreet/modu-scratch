@@ -17,10 +17,12 @@ import smallStageIcon from './icon--small-stage.svg';
 import unFullScreenIcon from './icon--unfullscreen.svg';
 import downLoadIcon from './icon-down_new.svg'
 import upLoadIcon from './icon-up_new.svg'
+import shareIcon from './icon-share.svg'
 
 import styles from './stage-header.css';
 import ProjectSaver from '../../containers/project-saver.jsx';
 import ProjectLoader from '../../containers/project-loader.jsx';
+import ProjectSharer from '../../containers/project-sharer.jsx';
 
 const messages = defineMessages({
     largeStageSizeMessage: {
@@ -96,6 +98,23 @@ const StageHeaderComponent = function (props) {
                 []
             ) : (
                 <div className={styles.stageSizeToggleGroup}>
+                    <div>                        
+                        <ProjectSharer>{(shareProject, shareProps) => (
+                            <Button
+                                className={styles.stageButton}
+                                onClick={shareProject}
+                                {...shareProps}
+                            >
+                            <img
+                                alt="Share your Project"
+                                className={styles.stageButtonIcon}
+                                draggable={false}
+                                src={shareIcon}
+                                title="Share your Project"
+                            />
+                            </Button>
+                        )}</ProjectSharer>
+                    </div>
                     <div>
                         <ProjectLoader>{(renderFileInput, loadProject, loadProps) => (                            
                             <Button

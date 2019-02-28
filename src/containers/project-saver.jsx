@@ -53,13 +53,13 @@ class ProjectSaver extends React.Component {
                 navigator.msSaveOrOpenBlob(content, filename);
                 return;
             }
-
+           
             const url = window.URL.createObjectURL(content);
             saveLink.href = url;
             saveLink.download = filename;
             saveLink.click();
             window.URL.revokeObjectURL(url);
-            document.body.removeChild(saveLink);
+            document.body.removeChild(saveLink);            
         });
     }
     render () {
