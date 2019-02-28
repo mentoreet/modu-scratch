@@ -44,17 +44,13 @@ class ProjectSharer extends React.Component {
 
             const timestamp = `${yyyymmdd}${hhmmss}`;
             const filename = `moducoding_project_${timestamp}.sb3`;
-
-            console.log('project save start!');
-
             const data = new FormData();
             data.append('file', content);
             data.append('name', filename);
-
-            console.log('formdata create!');
-
+            const config = { headers: { 'Content-Type': 'multipart/form-data' } }; 
+            
             axios
-              .post('http://localhost:5060/LMS/Lecture/UploadScratch', data, {
+              .post('http://localhost:5060/UploadScratch', data, config, {
                 onUploadProgress: ProgressEvent => {
                   this.setState({
                     loaded: (ProgressEvent.loaded / ProgressEvent.total*100),
@@ -62,8 +58,24 @@ class ProjectSharer extends React.Component {
                 },
               })
               .then(res => {
-                console.log(res);
-                console.log(res.statusText);
+                console.log(res.data);
+                var element =  document.getElementById('hddProjectFile');
+                if (typeof(element) != 'undefined' && element != null)
+                {
+                    element.setAttribute("value", res.data);
+                }
+                else{
+                    var input = document.createElement("input");
+                    input.setAttribute("type", "hidden");
+                    input.setAttribute("id", "hddProjectFile");
+                    input.setAttribute("name", "hddProjectFile");
+                    input.setAttribute("value", res.data);
+                    document.body.appendChild(input);
+                }
+                //parent.UploadFileCompleted(res.data);                
+                var filePath = 'https://modustorage.blob.core.windows.net/scratch/moducoding_project_20190228141111.sb3';
+                parent.postMessage(filePath,"*");
+                //parent.postMessage(res.data,"http://localhost:5060");
               });
         });
     }
