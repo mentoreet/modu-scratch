@@ -50,7 +50,7 @@ class ProjectSharer extends React.Component {
             const config = { headers: { 'Content-Type': 'multipart/form-data' } }; 
             
             axios
-              .post('http://localhost:5060/UploadScratch', data, config, {
+              .post('https://stg.moducoding.com/UploadScratch', data, config, {
                 onUploadProgress: ProgressEvent => {
                   this.setState({
                     loaded: (ProgressEvent.loaded / ProgressEvent.total*100),
