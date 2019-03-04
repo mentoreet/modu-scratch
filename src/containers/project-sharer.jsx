@@ -59,6 +59,7 @@ class ProjectSharer extends React.Component {
               })
               .then(res => {
                 console.log(res.data);
+                /*
                 var element =  document.getElementById('hddProjectFile');
                 if (typeof(element) != 'undefined' && element != null)
                 {
@@ -72,6 +73,7 @@ class ProjectSharer extends React.Component {
                     input.setAttribute("value", res.data);
                     document.body.appendChild(input);
                 }
+                */
                 //parent.UploadFileCompleted(res.data);                
                 var filePath = 'https://modustorage.blob.core.windows.net/scratch/moducoding_project_20190228141111.sb3';
                 parent.postMessage(filePath,"*");
