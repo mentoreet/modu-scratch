@@ -27,9 +27,9 @@ class ProjectSharer extends React.Component {
     shareProject () {
         this.props.vm.saveProjectSb3().then(content => {
             // 공유버튼을 클릭한 전송자 창에 공유중이라는 메시지 팝업을 띄운다.
-            var messageData = new object();
-            messageData.append('type', 'message');
-            messageData.append('data', 'Sharing...');
+            var messageData = new Object();
+            messageData.type = 'message';
+            messageData.data = 'Sharing...';
             parent.postMessage(messageData,"*");
             
             // TODO user-friendly project name
@@ -82,10 +82,9 @@ class ProjectSharer extends React.Component {
                 */
                 //parent.UploadFileCompleted(res.data);                
                 var filePath = 'https://modustorage.blob.core.windows.net/scratch/moducoding_project_20190228141111.sb3';
-                var messageData = new object();
-                messageData.append('type', 'url');
-                messageData.append('data', filePath);
-                parent.postMessage(messageData,"*");
+                var messageData = new Object();
+                messageData.type = 'url';
+                messageData.data = filePath;
                 parent.postMessage(messageData,"*");
                 //parent.postMessage(res.data,"http://localhost:5060");
               });
