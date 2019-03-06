@@ -84,8 +84,8 @@ class GUI extends React.Component {
         };
 
         request.send();
-
-        if (fileName == '' && !this.props.vm.initialized)
+        
+        if ((fileName == '' || fileName == null) && !this.props.vm.initialized)
         {
             console.log('!this.props.vm.initialized');
             this.props.vm.loadProject(this.props.projectData)
