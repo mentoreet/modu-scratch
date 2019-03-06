@@ -25,12 +25,13 @@ class ProjectSharer extends React.Component {
         ]);
     }    
     shareProject () {
+        // 공유버튼을 클릭한 전송자 창에 공유중이라는 메시지 팝업을 띄운다.
+        var messageData = new Object();
+        messageData.type = 'message';
+        messageData.data = 'Sharing...';
+        parent.postMessage(messageData,"*");
+        
         this.props.vm.saveProjectSb3().then(content => {
-            // 공유버튼을 클릭한 전송자 창에 공유중이라는 메시지 팝업을 띄운다.
-            var messageData = new Object();
-            messageData.type = 'message';
-            messageData.data = 'Sharing...';
-            parent.postMessage(messageData,"*");
             
             // TODO user-friendly project name
             // File name: project-DATE-TIME
