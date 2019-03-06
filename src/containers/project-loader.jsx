@@ -52,6 +52,7 @@ class ProjectLoader extends React.Component {
         history.replaceState({}, document.title, '.');
         const reader = new FileReader();
         const thisFileInput = e.target;
+        
         reader.onload = () => this.props.vm.loadProject(reader.result)
             .then(() => {
                 analytics.event({

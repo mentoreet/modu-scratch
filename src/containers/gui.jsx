@@ -23,6 +23,7 @@ import ProjectLoaderHOC from '../lib/project-loader-hoc.jsx';
 import vmListenerHOC from '../lib/vm-listener-hoc.jsx';
 
 import GUIComponent from '../components/gui/gui.jsx';
+import { exception } from 'react-ga';
 
 class GUI extends React.Component {
     constructor (props) {
@@ -41,7 +42,8 @@ class GUI extends React.Component {
         let searchParams = new URLSearchParams(location.search);
         var fileName = searchParams.get('file');//location.search.substring(6);        
         var sbUrl = 'https://modustorage.blob.core.windows.net/scratch/' + fileName;
-        //var sbUrl = 'http://0.0.0.0:8601/static/' + fileName;
+        // console.log(fileName);
+        //var sbUrl = 'http://localhost:8601/static/' + fileName;
         var request = new XMLHttpRequest();
         request.open('GET', sbUrl, true);
         request.responseType = 'blob';
@@ -52,7 +54,7 @@ class GUI extends React.Component {
                 reader.readAsDataURL(request.response);
                 
                 reader.onload =  function(e){
-                    console.log('DataURL:', e.target.result);
+                    // console.log('DataURL:', e.target.result);
                     var base64 = e.target.result;
                     var binary_string =  window.atob(base64.split(',')[1]);
                     var len = binary_string.length;
@@ -60,9 +62,11 @@ class GUI extends React.Component {
                     for (var i = 0; i < len; i++)        {
                         bytes[i] = binary_string.charCodeAt(i);
                     }
-
+                    
                     projectLoader.props.vm.loadProject(bytes.buffer)
                          .then(() => {
+                            //console.log(bytes.buffer);
+                            //projectLoader.props.closeLoadingState();
                             projectLoader.setState({loading: false}, () => {
                                 projectLoader.props.vm.setCompatibilityMode(true);
                                 projectLoader.props.vm.start();
@@ -71,6 +75,7 @@ class GUI extends React.Component {
                         .catch(e => {
                             // Need to catch this error and update component state so that
                             // error page gets rendered if project failed to load
+                            console.log('gui-load project exception----->' + e);
                             projectLoader.setState({loadingError: true, errorMessage: e});
                         });
                     projectLoader.props.vm.initialized = true;
@@ -80,10 +85,11 @@ class GUI extends React.Component {
 
         request.send();
 
-        if (!this.props.vm.initialized)
+        if (fileName == '' && !this.props.vm.initialized)
         {
+            console.log('!this.props.vm.initialized');
             this.props.vm.loadProject(this.props.projectData)
-            .then(() => {
+            .then(() => {                
                 this.setState({loading: false}, () => {
                     this.props.vm.setCompatibilityMode(true);
                     this.props.vm.start();
