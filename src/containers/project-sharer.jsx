@@ -81,11 +81,12 @@ class ProjectSharer extends React.Component {
                 }
                 */
                 //parent.UploadFileCompleted(res.data);                
-                var filePath = 'https://modustorage.blob.core.windows.net/scratch/moducoding_project_20190228141111.sb3';
-                var messageData = new Object();
-                messageData.type = 'url';
-                messageData.data = filePath;
-                parent.postMessage(messageData,"*");
+                //var filePath = 'https://modustorage.blob.core.windows.net/scratch/moducoding_project_20190228141111.sb3';
+                var filePath = res.data;
+                var urlData = new Object();
+                urlData.type = 'url';
+                urlData.data = filePath;
+                parent.postMessage(urlData,"*");
                 //parent.postMessage(res.data,"http://localhost:5060");
               });
         });
